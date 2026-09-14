@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Air Mapping Console"
+description = "A desktop-style pilot interface for air mapping missions, with map positioning, aircraft and camera status, capture controls, layer management, and flightline deviation guidance."
+version = "1.0.0"
+id = "artifacts/air-mapping-console"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19373
+
+[services.development]
+run = "pnpm --filter @workspace/air-mapping-console run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/air-mapping-console", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/air-mapping-console/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19373"
+BASE_PATH = "/"
